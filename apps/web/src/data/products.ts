@@ -1,0 +1,58 @@
+import type { Product } from "../types";
+
+export const dummyProducts: Product[] = [
+  {
+    id: 1,
+    code: "SATE001",
+    name: "Sate Ayam",
+    price: 10000,
+    its_ready: true,
+    best_seller: true,
+    img: "https://images.unsplash.com/photo-1529563021893-cc83c992d75d?w=400&h=300&fit=crop",
+  },
+  {
+    id: 2,
+    code: "NASI001",
+    name: "Nasi Goreng",
+    price: 12000,
+    its_ready: true,
+    best_seller: true,
+    img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop",
+  },
+  {
+    id: 3,
+    code: "NASI002",
+    name: "Nasi Remes",
+    price: 15000,
+    its_ready: true,
+    best_seller: false,
+    img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
+  },
+  {
+    id: 4,
+    code: "MIE001",
+    name: "Mie Ayam Bakso",
+    price: 15000,
+    its_ready: true,
+    best_seller: false,
+    img: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop",
+  },
+  {
+    id: 5,
+    code: "LON001",
+    name: "Lontong Opor",
+    price: 15000,
+    its_ready: true,
+    best_seller: false,
+    img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=300&fit=crop",
+  },
+  {
+    id: 6,
+    code: "PAN001",
+    name: "Pangsit",
+    price: 4000,
+    its_ready: true,
+    best_seller: false,
+    img: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=400&h=300&fit=crop",
+  },
+];

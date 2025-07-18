@@ -1,0 +1,12 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { Link, useLocation } from "react-router-dom";
+const SuccessPage = () => {
+    const location = useLocation();
+    const state = location.state;
+    const { trackingNumber, customerName } = state || {
+        trackingNumber: "ORDER-UNKNOWN",
+        customerName: "Guest",
+    };
+    return (_jsx("div", { className: "min-h-screen bg-gray-50 flex items-center justify-center px-4", children: _jsxs("div", { className: "max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center", children: [_jsx("div", { className: "mb-6", children: _jsx("div", { className: "mx-auto w-24 h-24 bg-green-100 rounded-full flex items-center justify-center", children: _jsx("svg", { className: "w-12 h-12 text-green-600", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: _jsx("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M5 13l4 4L19 7" }) }) }) }), _jsx("h1", { className: "text-2xl font-bold text-gray-900 mb-2", children: "Success!!" }), _jsxs("p", { className: "text-gray-600 mb-6", children: ["Your order will be processed shortly", _jsx("br", {}), "Please wait patiently"] }), _jsxs("div", { className: "bg-gray-50 rounded-lg p-4 mb-6", children: [_jsx("div", { className: "text-sm text-gray-600 mb-1", children: "Order ID:" }), _jsx("div", { className: "font-mono text-lg font-semibold text-gray-900 mb-3", children: trackingNumber }), _jsx("div", { className: "text-sm text-gray-600 mb-1", children: "Customer:" }), _jsx("div", { className: "font-medium text-gray-900", children: customerName })] }), _jsxs("div", { className: "text-sm text-gray-600 mb-6", children: [_jsx("p", { children: "Please save your order ID for tracking purposes." }), _jsx("p", { children: "You will be notified when your order is ready." })] }), _jsxs("div", { className: "space-y-3", children: [_jsx(Link, { to: "/foods", className: "block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200", children: "Order More Food" }), _jsx(Link, { to: "/", className: "block w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg transition-colors duration-200", children: "Back to Home" })] }), _jsx("div", { className: "mt-8 pt-6 border-t border-gray-200", children: _jsx("p", { className: "text-sm text-gray-500", children: "Thank you for choosing Kuliner!" }) })] }) }));
+};
+export default SuccessPage;

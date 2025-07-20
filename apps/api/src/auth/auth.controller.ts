@@ -11,14 +11,33 @@ export class AuthController {
   @Post('login')
   @ApiOperation({ summary: 'User login' })
   @ApiBody({ type: LoginDto })
-  @ApiResponse({ status: 201, description: 'Login successful' })
+  @ApiResponse({
+    status: 200,
+    description: 'Login berhasil',
+    schema: {
+      example: {
+        message: 'Login berhasil',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+      },
+    },
+  })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
   async login(@Body() body: LoginDto) {
     const user = await this.authService.validateUser(
       body.username,
       body.password,
     );
-    if (!user) throw new UnauthorizedException('Invalid credentials');
-    return this.authService.login(user);
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const tokenResponse = await this.authService.login(
+      body.username,
+      body.password,
+    );
+    return {
+      message: 'Login berhasil',
+      token: tokenResponse.token,
+    };
   }
 }

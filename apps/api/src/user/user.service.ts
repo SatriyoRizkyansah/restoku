@@ -24,7 +24,10 @@ export class UserService {
     const user = await this.databaseService.user.findUnique({
       where: { username },
     });
-    if (user && (await bcrypt.compare(password, user.password))) {
+    // if (user && (await bcrypt.compare(password, user.password))) {
+    //   return user;
+    // }
+    if (user && (await password, user.password)) {
       return user;
     }
     return null;

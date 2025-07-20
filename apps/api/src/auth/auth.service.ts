@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 
@@ -13,10 +13,18 @@ export class AuthService {
     return this.userService.validateUser(username, password);
   }
 
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.id };
+  async login(username: string, password: string) {
+    const user = await this.validateUser(username, password);
+    if (!user) {
+      throw new UnauthorizedException('Username atau password salah');
+    }
+
+    const payload = { sub: user.id, username: user.username };
+    const token = await this.jwtService.signAsync(payload);
+
     return {
-      access_token: this.jwtService.sign(payload),
+      message: 'Login berhasil',
+      token,
     };
   }
 }

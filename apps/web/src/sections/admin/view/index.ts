@@ -1,1 +1,1 @@
-export * from "./admin-view";
+export * from "./page";

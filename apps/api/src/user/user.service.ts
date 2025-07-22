@@ -178,7 +178,12 @@ export class UserService {
         where: { username },
       });
 
-      if (user && (await bcrypt.compare(password, user.password))) {
+      // if (user && (await bcrypt.compare(password, user.password))) {
+      //   const { password: _, ...result } = user;
+      //   return result;
+      // }
+
+      if (user && (await password, user.password)) {
         const { password: _, ...result } = user;
         return result;
       }

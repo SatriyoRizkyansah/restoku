@@ -1,17 +1,6 @@
 "use client";
 
-import {
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconChartBar, IconDashboard, IconDatabase, IconHelp, IconInnerShadowTop, IconListDetails, IconReport, IconSearch, IconSettings, IconUsers } from "@tabler/icons-react";
 
 const data = {
   user: {
@@ -89,11 +78,7 @@ export function SimpleSidebar() {
         <div>
           <nav className="space-y-2">
             {data.navMain.map((item) => (
-              <a
-                key={item.title}
-                href={item.url}
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-              >
+              <a key={item.title} href={item.url} className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
                 <item.icon className="h-5 w-5" />
                 <span className="font-medium">{item.title}</span>
               </a>
@@ -103,16 +88,10 @@ export function SimpleSidebar() {
 
         {/* Documents */}
         <div>
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-            Documents
-          </h3>
+          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Documents</h3>
           <nav className="space-y-1">
             {data.documents.map((item) => (
-              <a
-                key={item.name}
-                href={item.url}
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-              >
+              <a key={item.name} href={item.url} className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors">
                 <item.icon className="h-4 w-4" />
                 <span className="text-sm">{item.name}</span>
               </a>
@@ -124,11 +103,7 @@ export function SimpleSidebar() {
         <div className="mt-auto">
           <nav className="space-y-1">
             {data.navSecondary.map((item) => (
-              <a
-                key={item.title}
-                href={item.url}
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-              >
+              <a key={item.title} href={item.url} className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors">
                 <item.icon className="h-4 w-4" />
                 <span className="text-sm">{item.title}</span>
               </a>
@@ -144,12 +119,8 @@ export function SimpleSidebar() {
             <span className="text-sm font-medium text-gray-600">A</span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
-              {data.user.name}
-            </p>
-            <p className="text-xs text-gray-500 truncate">
-              {data.user.email}
-            </p>
+            <p className="text-sm font-medium text-gray-900 truncate">{data.user.name}</p>
+            <p className="text-xs text-gray-500 truncate">{data.user.email}</p>
           </div>
         </div>
       </div>

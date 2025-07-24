@@ -1,10 +1,15 @@
 import { Button } from "@/components/ui/button";
+import { BadgeAlert } from "lucide-react";
 
 export function DashboardView() {
   return (
-    <>
-      <h1>Hello World</h1>
-      <Button>asd</Button>
-    </>
+    <div>
+      <div className="h-screen flex items-center justify-center">
+        <Button variant="default" size="sm">
+          <BadgeAlert />
+          Click me
+        </Button>
+      </div>
+    </div>
   );
 }

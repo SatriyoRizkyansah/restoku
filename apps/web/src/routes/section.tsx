@@ -1,6 +1,6 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { lazy } from "react";
-import Layout from "../components/Layout";
+import Layout from "../components/HomeLayout";
 import { CartProvider } from "../contexts/CartContext";
 import DashboardLayout from "../layouts/DashboardLayout";
 

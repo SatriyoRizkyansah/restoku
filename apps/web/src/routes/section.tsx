@@ -9,7 +9,7 @@ export const FoodsPage = lazy(() => import("../pages/foods-page"));
 export const CartPage = lazy(() => import("../pages/cart-page"));
 export const SuccessPage = lazy(() => import("../pages/success-page"));
 export const AdminPage = lazy(() => import("../pages/admin-page"));
-export const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
+export const Dashboard = lazy(() => import("../pages/dashboard-page"));
 
 export const routesSections = [
   {

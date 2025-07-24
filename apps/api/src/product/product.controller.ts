@@ -32,7 +32,7 @@ import { ResponseInterceptor } from '../common/interceptors/response.interceptor
 
 @ApiTags('Products')
 @Controller('products')
-@UseInterceptors(ResponseInterceptor)
+// @UseInterceptors(ResponseInterceptor)
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
 export class ProductController {
   constructor(private readonly productService: ProductService) {}

@@ -11,11 +11,17 @@ export function NavUser({
 }: {
   user: {
     name: string;
-    email: string;
+    email?: string;
     avatar: string;
   };
 }) {
   const { isMobile } = useSidebar();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+
+    window.location.href = "/login";
+  };
 
   return (
     <SidebarMenu>
@@ -48,22 +54,14 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
+            {/* <DropdownMenuGroup>
               <DropdownMenuItem>
                 <IconUserCircle />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconCreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconNotification />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            </DropdownMenuGroup> */}
+            {/* <DropdownMenuSeparator /> */}
+            <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               Log out
             </DropdownMenuItem>

@@ -5,6 +5,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import Layout from "../components/HomeLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import { CartProvider } from "../contexts/CartContext";
+import ProtectedRoute from "./components/auth/protected-route";
 
 // Lazy-loaded pages
 export const HomePage = lazy(() => import("../pages/home-page"));
@@ -69,9 +70,11 @@ export const routesSections: RouteObject[] = [
   {
     path: "/dashboard",
     element: (
-      <DashboardLayout>
-        <Dashboard />
-      </DashboardLayout>
+      <ProtectedRoute>
+        <DashboardLayout>
+          <Dashboard />
+        </DashboardLayout>
+      </ProtectedRoute>
     ),
   },
   {

@@ -60,6 +60,7 @@ export function CartView() {
     // Save to localStorage
     const existingOrders = JSON.parse(localStorage.getItem("restaurant-orders") || "[]");
     existingOrders.push(order);
+    console.log(order);
     localStorage.setItem("restaurant-orders", JSON.stringify(existingOrders));
 
     // Clear cart
@@ -130,9 +131,9 @@ export function CartView() {
                           src={item.product.img}
                           alt={item.product.name}
                           className="w-20 h-20 object-cover rounded-xl shadow-md"
-                          onError={(e) => {
-                            e.currentTarget.src = `https://via.placeholder.com/80x80/f3f4f6/9ca3af?text=${encodeURIComponent(item.product.name.charAt(0))}`;
-                          }}
+                          // onError={(e) => {
+                          //   e.currentTarget.src = `https://via.placeholder.com/80x80/f3f4f6/9ca3af?text=${encodeURIComponent(item.product.name.charAt(0))}`;
+                          // }}
                         />
                       </div>
 

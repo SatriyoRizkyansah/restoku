@@ -2,7 +2,6 @@
 // import { jwt_parse } from 'src/utils/util-general';
 import { jwt_parse } from "@/utils/util-general";
 import { signal } from "@preact/signals-react";
-import Cookies from "js-cookie";
 
 export type AuthSignalType = {
   token?: string;

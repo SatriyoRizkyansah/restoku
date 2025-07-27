@@ -28,9 +28,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           src={product.img}
           alt={product.name}
           className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
-          onError={(e) => {
-            e.currentTarget.src = `https://via.placeholder.com/400x300/f3f4f6/9ca3af?text=${encodeURIComponent(product.name)}`;
-          }}
+          // onError={(e) => {
+          //   e.currentTarget.src = `https://via.placeholder.com/400x300/f3f4f6/9ca3af?text=${encodeURIComponent(product.name)}`;
+          // }}
         />
 
         {/* Badges */}

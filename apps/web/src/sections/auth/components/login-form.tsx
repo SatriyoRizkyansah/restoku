@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import api from "@/lib/axios"; // axios instance
+import { show_toast } from "@/lib/@preact-signals-react/toas_signal";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"form">) {
   const navigate = useNavigate();
@@ -37,20 +38,20 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
         password,
       });
 
-      console.log("Response dari API:", response.data);
-
       const token = response.data.data.token;
 
       if (!token) {
         throw new Error("Token tidak ditemukan dalam response");
       }
 
-      console.log("Token yang diterima:", token);
-
       const isTokenSaved = setTokenToStorage(token);
 
       if (isTokenSaved) {
         const savedToken = localStorage.getItem("token");
+        show_toast({
+          severity: "success",
+          message: "Login berhasil! Mengarahkan ke dashboard...",
+        });
 
         if (savedToken === token) {
           navigate("/dashboard");
@@ -62,6 +63,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
       }
     } catch (error: any) {
       console.error("Login error:", error);
+
+      show_toast({
+        severity: "error",
+        message: error?.response?.data?.message || error.message || "Terjadi kesalahan saat login.",
+      });
     } finally {
       setLoading(false);
     }

@@ -1,10 +1,35 @@
+"use client";
+
 import { Link } from "react-router-dom";
 import ProductCard from "../../../components/ProductCard";
 import { dummyProducts } from "../../../data/products";
+import { useEffect, useState } from "react";
+import api from "@/lib/axios";
 
 export function HomeView() {
   // Show only best sellers for home page
-  const bestSellerProducts = dummyProducts.filter((product) => product.best_seller);
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/products/best-sellers");
+        setProducts(response.data.data);
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // const bestSellerProducts = dummyProducts.filter((product) => product.best_seller);
+  const bestSellerProducts = products || [];
+
+  // if (loading) return <p>Loading...</p>;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50">

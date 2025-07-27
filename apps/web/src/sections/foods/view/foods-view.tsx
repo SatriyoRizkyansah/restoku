@@ -1,13 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../../../components/ProductCard";
 import { dummyProducts } from "../../../data/products";
+import api from "@/lib/axios";
+
+type Product = {
+  id: number | string;
+  name: string;
+  best_seller?: boolean;
+  its_ready?: boolean;
+  // add other fields as needed
+};
 
 export function FoodsView() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<"all" | "best_seller" | "available">("all");
 
+  const [loading, setLoading] = useState(true);
+
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/products");
+        setProducts(response.data.data);
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   // Filter products based on search and filter
-  const filteredProducts = dummyProducts.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
 
     switch (filter) {

@@ -11,16 +11,31 @@ export const useUsers = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
+
       const response = await api.get("/users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      // Handle response structure dari API
+
       const userData = response.data?.data || response.data;
-      setUsers(Array.isArray(userData) ? userData : []);
+
+      // Set users dengan berbagai kemungkinan struktur
+      let finalUsers = [];
+      if (Array.isArray(userData)) {
+        finalUsers = userData;
+      } else if (Array.isArray(userData?.users)) {
+        finalUsers = userData.users;
+      } else if (Array.isArray(userData?.data)) {
+        finalUsers = userData.data;
+      } else if (Array.isArray(userData?.items)) {
+        finalUsers = userData.items;
+      }
+
+      setUsers(finalUsers);
       setError(null);
     } catch (err: any) {
+      console.error("❌ USERS - Error:", err);
       setError(err.response?.data?.message || "Failed to fetch users");
       setUsers([]); // Set empty array on error
     } finally {

@@ -11,13 +11,15 @@ export const useProducts = () => {
     try {
       setLoading(true);
       const response = await api.get("/products");
-      // Handle response structure dari API (bisa berupa { data: Product[] } atau langsung Product[])
+
       const productData = response.data?.data || response.data;
+
       setProducts(Array.isArray(productData) ? productData : []);
       setError(null);
     } catch (err: any) {
+      console.error("❌ PRODUCTS - Error:", err);
       setError(err.response?.data?.message || "Failed to fetch products");
-      setProducts([]); // Set empty array on error
+      setProducts([]);
     } finally {
       setLoading(false);
     }

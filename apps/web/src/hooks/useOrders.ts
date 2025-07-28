@@ -11,14 +11,29 @@ export const useOrders = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
+
       const response = await api.get("/orders", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
       // Handle response structure dari API
       const orderData = response.data?.data || response.data;
-      setOrders(Array.isArray(orderData) ? orderData : []);
+
+      // Set orders dengan berbagai kemungkinan struktur
+      let finalOrders = [];
+      if (Array.isArray(orderData)) {
+        finalOrders = orderData;
+      } else if (Array.isArray(orderData?.orders)) {
+        finalOrders = orderData.orders;
+      } else if (Array.isArray(orderData?.data)) {
+        finalOrders = orderData.data;
+      } else if (Array.isArray(orderData?.items)) {
+        finalOrders = orderData.items;
+      }
+
+      setOrders(finalOrders);
       setError(null);
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to fetch orders");

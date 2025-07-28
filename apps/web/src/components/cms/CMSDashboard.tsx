@@ -35,7 +35,7 @@ export function CMSDashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Restaurant CMS</h1>
+        <h1 className="text-3xl font-bold">Kyoto Kitchen Dashboard</h1>
         <p className="text-muted-foreground">Manage your restaurant's products, orders, and users</p>
       </div>
 

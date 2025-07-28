@@ -25,7 +25,7 @@ import {
   ApiConsumes,
 } from '@nestjs/swagger';
 import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/product.dto';
+import { CreateProductDto, UpdateProductDto } from './dto/product.dto';
 import { ResponseInterceptor } from '../common/interceptors/response.interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
@@ -70,19 +70,19 @@ export class ProductController {
     }));
   }
 
-  @Get('available')
-  @ApiOperation({
-    summary: 'Get available products',
-    description:
-      'Retrieve all products that are currently available (its_ready = true), sorted by best sellers first',
-  })
-  @ApiOkResponse({
-    description: 'Available products retrieved successfully',
-    type: [CreateProductDto],
-  })
-  async findAvailable() {
-    return this.productService.findAvailable();
-  }
+  // @Get('available')
+  // @ApiOperation({
+  //   summary: 'Get available products',
+  //   description:
+  //     'Retrieve all products that are currently available (its_ready = true), sorted by best sellers first',
+  // })
+  // @ApiOkResponse({
+  //   description: 'Available products retrieved successfully',
+  //   type: [CreateProductDto],
+  // })
+  // async findAvailable() {
+  //   return this.productService.findAvailable();
+  // }
 
   @Get('best-sellers')
   @ApiOperation({
@@ -94,43 +94,49 @@ export class ProductController {
     type: [CreateProductDto],
   })
   async findBestSellers() {
-    return this.productService.findBestSellers();
+    const products = await this.productService.findBestSellers();
+    const host = process.env.HOST_URL || 'http://localhost:3000';
+
+    return products.map((product) => ({
+      ...product,
+      img: product.img ? `${host}/uploads/${product.img}` : null,
+    }));
   }
 
-  @Get(':id')
-  @ApiOperation({
-    summary: 'Get product by ID',
-    description: 'Retrieve a specific product by its ID',
-  })
-  @ApiParam({
-    name: 'id',
-    description: 'Product ID',
-    type: 'number',
-    example: 1,
-  })
-  @ApiOkResponse({
-    description: 'Product retrieved successfully',
-    type: CreateProductDto,
-  })
-  @ApiNotFoundResponse({
-    description: 'Product not found',
-    schema: {
-      type: 'object',
-      properties: {
-        success: { type: 'boolean', example: false },
-        message: { type: 'string', example: 'Product with ID 1 not found' },
-        error: { type: 'object' },
-        timestamp: { type: 'string' },
-        path: { type: 'string' },
-      },
-    },
-  })
-  @ApiBadRequestResponse({
-    description: 'Invalid product ID or failed to fetch product',
-  })
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.productService.findOne(id);
-  }
+  // @Get(':id')
+  // @ApiOperation({
+  //   summary: 'Get product by ID',
+  //   description: 'Retrieve a specific product by its ID',
+  // })
+  // @ApiParam({
+  //   name: 'id',
+  //   description: 'Product ID',
+  //   type: 'number',
+  //   example: 1,
+  // })
+  // @ApiOkResponse({
+  //   description: 'Product retrieved successfully',
+  //   type: CreateProductDto,
+  // })
+  // @ApiNotFoundResponse({
+  //   description: 'Product not found',
+  //   schema: {
+  //     type: 'object',
+  //     properties: {
+  //       success: { type: 'boolean', example: false },
+  //       message: { type: 'string', example: 'Product with ID 1 not found' },
+  //       error: { type: 'object' },
+  //       timestamp: { type: 'string' },
+  //       path: { type: 'string' },
+  //     },
+  //   },
+  // })
+  // @ApiBadRequestResponse({
+  //   description: 'Invalid product ID or failed to fetch product',
+  // })
+  // async findOne(@Param('id', ParseIntPipe) id: number) {
+  //   return this.productService.findOne(id);
+  // }
 
   @Post()
   @ApiOperation({ summary: 'Create new product with image upload' })
@@ -174,48 +180,42 @@ export class ProductController {
   }
 
   @Patch(':id')
-  @ApiOperation({
-    summary: 'Update product',
-    description: 'Update an existing product with the provided information',
-  })
-  @ApiParam({
-    name: 'id',
-    description: 'Product ID',
-    type: 'number',
-    example: 1,
-  })
+  @UseInterceptors(
+    FileInterceptor('img', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, callback) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          callback(null, `product-${uniqueSuffix}${ext}`);
+        },
+      }),
+    }),
+  )
+  @ApiConsumes('multipart/form-data')
   @ApiBody({
-    type: CreateProductDto,
-    description: 'Product update data',
-    examples: {
-      example1: {
-        summary: 'Update price',
-        value: {
-          price: 27000,
-        },
-      },
-      example2: {
-        summary: 'Mark as unavailable',
-        value: {
-          its_ready: false,
-        },
+    description: 'Update product with optional image upload',
+    schema: {
+      type: 'object',
+      properties: {
+        code: { type: 'string', example: 'P001' },
+        name: { type: 'string', example: 'Nasi Goreng' },
+        price: { type: 'number', example: 27000 },
+        its_ready: { type: 'boolean', example: false },
+        best_seller: { type: 'boolean', example: true },
+        img: { type: 'string', format: 'binary' },
       },
     },
   })
-  @ApiOkResponse({
-    description: 'Product updated successfully',
-    type: CreateProductDto,
-  })
-  @ApiNotFoundResponse({
-    description: 'Product not found',
-  })
-  @ApiBadRequestResponse({
-    description: 'Validation failed or product with code already exists',
-  })
   async update(
     @Param('id', ParseIntPipe) id: number,
+    @UploadedFile() file: Express.Multer.File,
     @Body() updateProductDto: CreateProductDto,
   ) {
+    if (file) {
+      updateProductDto.img = file.filename;
+    }
     return this.productService.update(id, updateProductDto);
   }
 

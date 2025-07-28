@@ -41,7 +41,7 @@ export function HomeView() {
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
               Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-yellow-600">Kuliner</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">Rasakan kelezatan autentik kuliner Indonesia yang dibuat dengan cinta dan resep turun temurun</p>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">Itadakimasu! Rasakan kelezatan otentik kuliner Jepang, diracik dengan cinta dan teknik turun-temurun</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/foods"

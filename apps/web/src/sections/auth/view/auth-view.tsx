@@ -11,7 +11,7 @@ export function AuthView() {
             <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
               <HandPlatter className="size-4" />
             </div>
-            <Link to={"/"}>Restoku</Link>
+            <Link to={"/"}>Kyoto Kitchen</Link>
           </a>
         </div>
         <div className="flex flex-1 items-center justify-center">

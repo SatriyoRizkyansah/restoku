@@ -28,9 +28,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </svg>
               </div>
               <Link to="/" className="text-3xl font-bold text-white hover:text-yellow-200 transition-colors duration-200">
-                Restoku
+                Kyoto Kitchen
               </Link>
-              ``
             </div>
 
             {/* Navigation Links */}

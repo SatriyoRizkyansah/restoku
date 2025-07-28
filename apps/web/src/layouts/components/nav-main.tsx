@@ -7,6 +7,7 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, Sideba
 
 export function NavMain({
   items,
+  onItemClick,
 }: {
   items: {
     title: string;
@@ -16,9 +17,18 @@ export function NavMain({
     items?: {
       title: string;
       url: string;
+      action?: string;
     }[];
   }[];
+  onItemClick?: (action: string) => void;
 }) {
+  const handleSubItemClick = (e: React.MouseEvent, subItem: any) => {
+    e.preventDefault();
+    if (subItem.action && onItemClick) {
+      onItemClick(subItem.action);
+    }
+  };
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -38,7 +48,7 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
+                        <a href={subItem.url} onClick={(e) => handleSubItemClick(e, subItem)} className="cursor-pointer">
                           <span>{subItem.title}</span>
                         </a>
                       </SidebarMenuSubButton>

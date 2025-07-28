@@ -1,89 +1,89 @@
-import { Calendar, ChevronUp, HandPlatter, Home, Inbox, LogOut, PackageSearch, Search, Settings, User, User2 } from "lucide-react";
+import { HandPlatter, PackageSearch, Settings, ShoppingCart, Users } from "lucide-react";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 
 import { NavUser } from "./nav-user";
-import { AudioWaveform, BookOpen, Bot, Command, Frame, GalleryVerticalEnd, Map, PieChart, Settings2, SquareTerminal } from "lucide-react";
 import { NavMain } from "./nav-main";
 import { NavProjects } from "./nav-projects";
 import { auth_signal } from "@/lib/@preact-signals-react/auth-init-signal";
+import { useCMS } from "@/contexts/CMSContext";
 
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-];
+// Menu items data
 
 const data = {
   user: {
-    name: auth_signal.value.data?.username,
+    name: auth_signal.value.data?.username || "Admin",
     // email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
     {
-      title: "Product",
+      title: "Products",
       url: "#",
       icon: PackageSearch,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Manage Products",
+          url: "#products",
+          action: "products",
         },
         {
-          title: "Starred",
+          title: "Categories",
           url: "#",
         },
+      ],
+    },
+    {
+      title: "Orders",
+      url: "#",
+      icon: ShoppingCart,
+      items: [
         {
-          title: "Settings",
+          title: "All Orders",
+          url: "#orders",
+          action: "orders",
+        },
+        {
+          title: "Order Analytics",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Users",
+      url: "#",
+      icon: Users,
+      items: [
+        {
+          title: "Manage Users",
+          url: "#users",
+          action: "users",
+        },
+        {
+          title: "User Roles",
           url: "#",
         },
       ],
     },
   ],
-  projects: [
-    // {
-    //   name: "Design Engineering",
-    //   url: "#",
-    //   icon: Frame,
-    // },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    // {
-    //   name: "Travel",
-    //   url: "#",
-    //   icon: Map,
-    // },
-  ],
+  // projects: [
+  //   {
+  //     name: "Settings",
+  //     url: "#",
+  //     icon: Settings,
+  //   },
+  // ],
 };
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { setActiveTab } = useCMS();
+
+  const handleNavItemClick = (action: string) => {
+    if (action === "products" || action === "orders" || action === "users") {
+      setActiveTab(action as any);
+    }
+  };
+
   // console.log(auth_signal.value.data);
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -98,8 +98,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={data.navMain} onItemClick={handleNavItemClick} />
+        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   ValidationPipe,
   UsePipes,
+  UploadedFile,
 } from '@nestjs/common';
 import {
   ApiOperation,
@@ -21,14 +22,14 @@ import {
   ApiNotFoundResponse,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { ProductService } from './product.service';
-import {
-  ProductDto,
-  CreateProductDto,
-  UpdateProductDto,
-} from './dto/product.dto';
+import { CreateProductDto } from './dto/product.dto';
 import { ResponseInterceptor } from '../common/interceptors/response.interceptor';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { extname } from 'path';
+import { diskStorage } from 'multer';
 
 @ApiTags('Products')
 @Controller('products')
@@ -44,7 +45,7 @@ export class ProductController {
   })
   @ApiOkResponse({
     description: 'Products retrieved successfully',
-    type: [ProductDto],
+    type: [CreateProductDto],
   })
   @ApiBadRequestResponse({
     description: 'Failed to fetch products',
@@ -60,7 +61,13 @@ export class ProductController {
     },
   })
   async findAll() {
-    return this.productService.findAll();
+    const products = await this.productService.findAll();
+    const host = process.env.HOST_URL || 'http://localhost:3000';
+
+    return products.map((product) => ({
+      ...product,
+      img: product.img ? `${host}/uploads/${product.img}` : null,
+    }));
   }
 
   @Get('available')
@@ -71,7 +78,7 @@ export class ProductController {
   })
   @ApiOkResponse({
     description: 'Available products retrieved successfully',
-    type: [ProductDto],
+    type: [CreateProductDto],
   })
   async findAvailable() {
     return this.productService.findAvailable();
@@ -84,7 +91,7 @@ export class ProductController {
   })
   @ApiOkResponse({
     description: 'Best seller products retrieved successfully',
-    type: [ProductDto],
+    type: [CreateProductDto],
   })
   async findBestSellers() {
     return this.productService.findBestSellers();
@@ -103,7 +110,7 @@ export class ProductController {
   })
   @ApiOkResponse({
     description: 'Product retrieved successfully',
-    type: ProductDto,
+    type: CreateProductDto,
   })
   @ApiNotFoundResponse({
     description: 'Product not found',
@@ -126,49 +133,44 @@ export class ProductController {
   }
 
   @Post()
-  @ApiOperation({
-    summary: 'Create new product',
-    description: 'Create a new product with the provided information',
-  })
-  @ApiBody({
-    type: CreateProductDto,
-    description: 'Product creation data',
-    examples: {
-      example1: {
-        summary: 'Nasi Goreng',
-        value: {
-          code: 'P001',
-          name: 'Nasi Goreng Spesial',
-          price: 25000,
-          its_ready: true,
-          img: 'https://example.com/nasi-goreng.jpg',
-          best_seller: false,
+  @ApiOperation({ summary: 'Create new product with image upload' })
+  @UseInterceptors(
+    FileInterceptor('img', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, callback) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          callback(null, `product-${uniqueSuffix}${ext}`);
         },
-      },
-    },
-  })
-  @ApiCreatedResponse({
-    description: 'Product created successfully',
-    type: ProductDto,
-  })
-  @ApiBadRequestResponse({
-    description: 'Validation failed or product with code already exists',
+      }),
+    }),
+  )
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Product data with image',
     schema: {
       type: 'object',
       properties: {
-        success: { type: 'boolean', example: false },
-        message: {
+        code: { type: 'string', example: 'P001' },
+        name: { type: 'string', example: 'Nasi Goreng Spesial' },
+        price: { type: 'number', example: 25000 },
+        its_ready: { type: 'boolean', example: true },
+        best_seller: { type: 'boolean', example: false },
+        img: {
           type: 'string',
-          example: 'Product with this code already exists',
+          format: 'binary',
         },
-        error: { type: 'object' },
-        timestamp: { type: 'string' },
-        path: { type: 'string' },
       },
     },
   })
-  async create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  async create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: CreateProductDto,
+  ) {
+    const imageUrl = `${file.filename}`;
+    return this.productService.create({ ...body, img: imageUrl });
   }
 
   @Patch(':id')
@@ -183,7 +185,7 @@ export class ProductController {
     example: 1,
   })
   @ApiBody({
-    type: UpdateProductDto,
+    type: CreateProductDto,
     description: 'Product update data',
     examples: {
       example1: {
@@ -202,7 +204,7 @@ export class ProductController {
   })
   @ApiOkResponse({
     description: 'Product updated successfully',
-    type: ProductDto,
+    type: CreateProductDto,
   })
   @ApiNotFoundResponse({
     description: 'Product not found',
@@ -212,7 +214,7 @@ export class ProductController {
   })
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateProductDto: UpdateProductDto,
+    @Body() updateProductDto: CreateProductDto,
   ) {
     return this.productService.update(id, updateProductDto);
   }

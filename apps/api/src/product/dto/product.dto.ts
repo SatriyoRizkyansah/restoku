@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
 import {
   IsBoolean,
   IsNotEmpty,
@@ -56,31 +57,24 @@ export class CreateProductDto {
 
   @ApiProperty({ description: 'Product price in IDR', example: 25000 })
   @IsNumber()
+  @Type(() => Number)
   price: number;
 
-  @ApiProperty({
-    description: 'Product availability status',
-    example: true,
-    default: true,
-  })
+  @ApiProperty({ description: 'Product availability status', example: true })
   @IsBoolean()
-  its_ready: boolean = true;
-
-  @ApiProperty({
-    description: 'Product image URL',
-    example: 'https://example.com/nasi-goreng.jpg',
-  })
-  @IsString()
-  @IsNotEmpty()
-  img: string;
+  @Transform(({ value }) => value === 'true' || value === true) // Convert from string to boolean
+  its_ready: boolean;
 
   @ApiProperty({
     description: 'Best seller status',
     example: false,
-    default: false,
   })
   @IsBoolean()
-  best_seller: boolean = false;
+  @Transform(({ value }) => value === 'true' || value === true)
+  best_seller: boolean;
+
+  // Karena img adalah file upload, hapus semua validasi string
+  img: any;
 }
 
 export class UpdateProductDto {

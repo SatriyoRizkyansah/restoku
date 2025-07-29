@@ -37,7 +37,7 @@ export const useUsers = () => {
     } catch (err: any) {
       console.error("❌ USERS - Error:", err);
       setError(err.response?.data?.message || "Failed to fetch users");
-      setUsers([]); // Set empty array on error
+      setUsers([]);
     } finally {
       setLoading(false);
     }

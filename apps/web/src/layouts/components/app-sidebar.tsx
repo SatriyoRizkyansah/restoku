@@ -13,7 +13,7 @@ import { useCMS } from "@/contexts/CMSContext";
 const data = {
   user: {
     name: auth_signal.value.data?.username || "Admin",
-    // email: "m@example.com",
+    // email: auth_signal.value.data?.email || "",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
@@ -28,10 +28,10 @@ const data = {
           url: "#products",
           action: "products",
         },
-        {
-          title: "Categories",
-          url: "#",
-        },
+        // {
+        //   title: "Categories",
+        //   url: "#",
+        // },
       ],
     },
     {
@@ -44,10 +44,10 @@ const data = {
           url: "#orders",
           action: "orders",
         },
-        {
-          title: "Order Analytics",
-          url: "#",
-        },
+        // {
+        //   title: "Order Analytics",
+        //   url: "#",
+        // },
       ],
     },
     {
@@ -60,20 +60,13 @@ const data = {
           url: "#users",
           action: "users",
         },
-        {
-          title: "User Roles",
-          url: "#",
-        },
+        // {
+        //   title: "User Roles",
+        //   url: "#",
+        // },
       ],
     },
   ],
-  // projects: [
-  //   {
-  //     name: "Settings",
-  //     url: "#",
-  //     icon: Settings,
-  //   },
-  // ],
 };
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { setActiveTab } = useCMS();

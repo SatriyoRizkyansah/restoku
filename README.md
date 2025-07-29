@@ -1,6 +1,6 @@
 # Restoku
 
-A modern fullstack web application for restaurant ordering system built with a clean architecture approach.
+<!-- A modern fullstack web application for restaurant ordering system built with a clean architecture approach.
 
 ## Tech Stack
 
@@ -19,7 +19,7 @@ A modern fullstack web application for restaurant ordering system built with a c
 - **Build Tool**: Vite for fast development and building
 - **Routing**: React Router DOM v7
 - **Styling**: TailwindCSS for utility-first CSS framework
-- **Development**: ESLint for code linting
+- **Development**: ESLint for code linting -->
 
 ### Development Tools
 
@@ -44,7 +44,7 @@ restoku/
 └── turbo.json        # Turborepo configuration
 ```
 
-## 🏃‍♂️ Getting Started
+<!-- ## 🏃‍♂️ Getting Started
 
 ### Prerequisites
 
@@ -77,4 +77,4 @@ restoku/
    npm run dev
    ```
 
-This will start both the API server and web application concurrently using Turborepo.
+This will start both the API server and web application concurrently using Turborepo. -->

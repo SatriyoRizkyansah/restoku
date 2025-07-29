@@ -54,9 +54,9 @@ export function FoodsView() {
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            🍽️ Menu <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Lengkap</span>
+            🍽️ Full <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Menu</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Temukan hidangan favorit Anda dari koleksi menu autentik kami</p>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Discover your favorite dishes from our authentic menu collection</p>
         </div>
 
         {/* Search and Filter Section */}
@@ -83,7 +83,7 @@ export function FoodsView() {
                   onClick={() => setFilter("all")}
                   className={`px-6 py-4 rounded-xl font-semibold transition-all duration-300 ${filter === "all" ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
                 >
-                  Semua
+                  All
                 </button>
                 <button
                   onClick={() => setFilter("best_seller")}
@@ -95,7 +95,7 @@ export function FoodsView() {
                   onClick={() => setFilter("available")}
                   className={`px-6 py-4 rounded-xl font-semibold transition-all duration-300 ${filter === "available" ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
                 >
-                  ✅ Tersedia
+                  ✅ Available
                 </button>
               </div>
             </div>
@@ -104,7 +104,7 @@ export function FoodsView() {
           {/* Results Info */}
           <div className="text-center mb-8">
             <p className="text-lg text-gray-600">
-              Menampilkan {filteredProducts.length} dari {dummyProducts.length} menu
+              Showing {filteredProducts.length} of {dummyProducts.length} menu items
             </p>
           </div>
         </div>
@@ -124,8 +124,8 @@ export function FoodsView() {
               <svg className="mx-auto h-16 w-16 text-gray-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Menu tidak ditemukan</h3>
-              <p className="text-gray-600 mb-6">Coba ubah kata kunci pencarian atau filter yang Anda gunakan.</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">No Menu Items Found</h3>
+              <p className="text-gray-600 mb-6">Try changing your search keyword or the filters you’ve applied.</p>
               <button
                 onClick={() => {
                   setSearchQuery("");
@@ -133,7 +133,7 @@ export function FoodsView() {
                 }}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
               >
-                Reset Pencarian
+                Reset Filters
               </button>
             </div>
           </div>

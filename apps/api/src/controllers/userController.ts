@@ -15,6 +15,7 @@ import {
 import {
   ApiOperation,
   ApiTags,
+  ApiResponse,
   ApiParam,
   ApiBody,
   ApiBadRequestResponse,
@@ -24,10 +25,12 @@ import {
   ApiConflictResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto, UserDto } from './dto/user.dto';
+// import { UserService } from './user.service';
+import { CreateUserDto, UpdateUserDto, UserDto } from './class/dto/user.dto';
 import { ResponseInterceptor } from '../common/interceptors/response.interceptor';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UserService } from 'src/services/user-service';
+// import { CreateUserDto } from './class/dto/user.dto';
 
 @ApiTags('Users')
 @Controller('users')

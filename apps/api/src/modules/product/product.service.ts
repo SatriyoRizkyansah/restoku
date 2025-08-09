@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateProductDto, UpdateProductDto } from './dto/product.dto';
-import { Prisma } from '../../generated/prisma';
+import { Prisma } from '../../../generated/prisma';
 
 @Injectable()
 export class ProductService {

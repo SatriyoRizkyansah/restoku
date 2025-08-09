@@ -25,7 +25,7 @@ import {
   ApiNotFoundResponse,
   ApiBadRequestResponse,
 } from '@nestjs/swagger';
-import { ResponseInterceptor } from '../common/interceptors/response.interceptor';
+import { ResponseInterceptor } from '../../common/interceptors/response.interceptor';
 
 @ApiTags('Orders')
 @Controller('orders')

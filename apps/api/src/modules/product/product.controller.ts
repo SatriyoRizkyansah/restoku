@@ -26,7 +26,7 @@ import {
 } from '@nestjs/swagger';
 import { ProductService } from './product.service';
 import { CreateProductDto, UpdateProductDto } from './dto/product.dto';
-import { ResponseInterceptor } from '../common/interceptors/response.interceptor';
+import { ResponseInterceptor } from '../../common/interceptors/response.interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
